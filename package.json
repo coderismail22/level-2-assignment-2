@@ -7,8 +7,9 @@
     "start:prod": "node ./dist/server.js",
     "start:dev": "tsnd --respawn --transpile-only ./src/server.ts",
     "build:tpl": "tsc --build",
-    "lint":"eslint src",
+    "lint": "eslint src",
     "lint:fix": "eslint src --fix",
+    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
