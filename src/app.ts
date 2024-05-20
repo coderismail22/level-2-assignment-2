@@ -7,13 +7,15 @@ const app: Application = express();
 app.use(express.json());
 app.use(cors());
 
+var abcd = 0;
+
 //application routes
-app.use('/api/products');
-app.use('/api/orders');
+// app.use('/api/products');
+// app.use('/api/orders');
 
 //default
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('Hello Prithibi!');
 });
 
 export default app;
