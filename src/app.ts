@@ -7,7 +7,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(cors());
 
-var abcd = 0;
+const abcd = 0;
 
 //application routes
 // app.use('/api/products');
