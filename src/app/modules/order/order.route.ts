@@ -1,6 +1,5 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { orderControllers } from './order.controller';
-import { request } from 'http';
 const router = express.Router();
 
 interface EmailQuery extends Request {
@@ -10,14 +9,15 @@ interface EmailQuery extends Request {
 }
 
 //to maintain the same api endpoint
-const email = (req: EmailQuery, res: Response) => {
+const checkEmail = (req: EmailQuery, res: Response) => {
   if (req.query.email) {
-    return router.get('/', orderControllers.getOrdersByEmail);
+    return orderControllers.getOrdersByEmail(req, res);
   } else {
-    return router.get('/', orderControllers.getAllOrders);
+    return orderControllers.getAllOrders(req, res);
   }
 };
 
 router.post('/', orderControllers.createNewOrder);
+router.get('/', checkEmail);
 
 export const OrderRoutes = router;
