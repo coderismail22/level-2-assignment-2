@@ -9,8 +9,8 @@ const insertNewProduct = async (req: Request, res: Response) => {
     const result = await productServices.insertNewProduct(productData);
     res.status(200).json({
       success: true,
-      message: 'Inserted product successfully',
-      result: result,
+      message: 'Product created successfully!',
+      data: result,
     });
   } catch (error) {
     console.log(error);
