@@ -18,6 +18,14 @@ const getSingleProduct = async (productId: string) => {
   return result;
 };
 
+const updateSingleProduct = async (
+  productId: string,
+  productData: TProduct,
+) => {
+  const result = await ProductModel.findByIdAndUpdate(productId, productData);
+  return result;
+};
+
 const getProductBySearchQuery = async (searchTerm: string) => {
   const result = await ProductModel.find({
     $or: [
@@ -33,4 +41,5 @@ export const productServices = {
   getAllProducts,
   getSingleProduct,
   getProductBySearchQuery,
+  updateSingleProduct,
 };

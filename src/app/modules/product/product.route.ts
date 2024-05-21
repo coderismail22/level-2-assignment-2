@@ -19,10 +19,9 @@ const checkSearchTerm = (req: ProductQuery, res: Response) => {
 };
 
 router.post('/', productControllers.insertNewProduct);
-router.get('/:productId', productControllers.getSingleProduct);
-// router.get('/', productControllers.getAllProducts);
-// router.get('/', productControllers.getProductBySearchQuery);
 
+
+router.get('/:productId', productControllers.getSingleProduct);
 //to maintain the same api endpoint
 router.get('/', checkSearchTerm);
 
