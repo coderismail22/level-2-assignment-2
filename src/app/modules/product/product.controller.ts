@@ -4,9 +4,10 @@ import { productServices } from './product.service';
 const insertNewProduct = async (req: Request, res: Response) => {
   try {
     //call insertNewProduct services
-    const { product } = req.body;
-    const result = await productServices.insertNewProduct(product);
-    res.send(200).json({
+    const { product: productData } = req.body;
+    console.log('check', productData);
+    const result = await productServices.insertNewProduct(productData);
+    res.status(200).json({
       success: true,
       message: 'Inserted product successfully',
       result: result,
