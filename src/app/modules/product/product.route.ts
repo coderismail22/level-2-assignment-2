@@ -19,10 +19,8 @@ const checkSearchTerm = (req: ProductQuery, res: Response) => {
 };
 
 router.post('/', productControllers.insertNewProduct);
-
-
 router.get('/:productId', productControllers.getSingleProduct);
-//to maintain the same api endpoint
-router.get('/', checkSearchTerm);
+router.get('/', checkSearchTerm); //to maintain the same api endpoint
+router.put('/:productId', productControllers.updateSingleProduct);
 
 export const ProductRoutes = router;
