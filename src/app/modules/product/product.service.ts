@@ -8,17 +8,18 @@ const insertNewProduct = async (productData: TProduct) => {
   return result;
 };
 
-const getAllProducts = async () =>{
-  const result = await ProductModel.find()
+const getAllProducts = async () => {
+  const result = await ProductModel.find();
   return result;
-}
+};
 
-const getSingleProduct = async(productId:string)=>{
-  const result = await ProductModel.findById(productId)
-}
+const getSingleProduct = async (productId: string) => {
+  const result = await ProductModel.findById(productId);
+  return result;
+};
 
 export const productServices = {
   insertNewProduct,
   getAllProducts,
-  getSingleProduct
+  getSingleProduct,
 };
