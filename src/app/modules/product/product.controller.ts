@@ -102,19 +102,19 @@ const deleteSingleProduct = async (req: Request, res: Response) => {
     const { productId } = req.params;
     const result = await productServices.deleteSingleProduct(productId);
     console.log('result', result);
-    
-    // if (result === null) {
-    //   res.status(404).json({
-    //     success: false,
-    //     message: 'Product not found!',
-    //   });
-    // } else {
-    //   res.status(200).json({
-    //     success: true,
-    //     message: 'Product deleted successfully!',
-    //     data: result,
-    //   });
-    // }
+
+    if (result === null) {
+      res.status(404).json({
+        success: false,
+        message: 'Product not found!',
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'Product deleted successfully!',
+        data: null,
+      });
+    }
   } catch (error) {
     res.status(500).json({
       success: false,
