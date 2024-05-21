@@ -4,27 +4,24 @@ import { orderServices } from './order.service';
 const createNewOrder = async (req: Request, res: Response) => {
   try {
     const { order: orderData } = req.body;
-    console.log('order', orderData);
     const result = await orderServices.createNewOrder(orderData);
-    console.log('result',result)
-    // if (result !== null) {
-    //   res.status(401).json({
-    //     success: false,
-    //     message: 'Could not create order!',
-    //     data: null,
-    //   });
-    // } else {
-    //   res.status(200).json({
-    //     success: true,
-    //     message: 'Order created successfully!',
-    //     data: result,
-    //   });
-    // }
+    console.log('try hitting', result);
+
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+      data: result,
+    });
   } catch (error) {
+    let errorMessage = 'An unexpected error occurred';
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
     res.status(500).json({
       success: false,
-      message: 'Internal Server Error!',
-      error,
+      message: errorMessage,
     });
   }
 };
