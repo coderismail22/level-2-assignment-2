@@ -22,5 +22,5 @@ router.post('/', productControllers.insertNewProduct);
 router.get('/:productId', productControllers.getSingleProduct);
 router.get('/', checkSearchTerm); //to maintain the same api endpoint
 router.put('/:productId', productControllers.updateSingleProduct);
-
+router.delete('/', productControllers.deleteSingleProduct);
 export const ProductRoutes = router;
