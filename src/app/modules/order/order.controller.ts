@@ -26,3 +26,7 @@ const createNewOrder = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const orderControllers = {
+  createNewOrder,
+};
