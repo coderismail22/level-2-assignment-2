@@ -16,7 +16,7 @@ const insertNewProduct = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Could not create student data.',
-      error: error,
+      error,
     });
   }
 };
@@ -33,7 +33,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Could not fetch data.',
-      error: error,
+      error,
     });
   }
 };
@@ -51,7 +51,31 @@ const getSingleProduct = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Could not fetch data.',
-      error: error,
+      error,
+    });
+  }
+};
+
+const updateSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const { product: productData } = req.body;
+
+    const result = await productServices.updateSingleProduct(
+      productId,
+      productData,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Product updated successfully!',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Could not update the product!',
+      error,
     });
   }
 };
@@ -77,4 +101,5 @@ export const productControllers = {
   getAllProducts,
   getSingleProduct,
   getProductBySearchQuery,
+  updateSingleProduct,
 };
