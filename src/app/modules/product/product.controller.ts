@@ -37,7 +37,27 @@ const getAllProducts = async (req: Request, res: Response) => {
     });
   }
 };
+
+const getSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const productId = req.body.params;
+    console.log(productId);
+    const result = await productServices.getSingleProduct(productId);
+    res.status(200).json({
+      success: true,
+      message: 'Product fetched successfully!',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Could not fetch data.',
+      error: error,
+    });
+  }
+};
 export const productControllers = {
   insertNewProduct,
   getAllProducts,
+  getSingleProduct
 };
