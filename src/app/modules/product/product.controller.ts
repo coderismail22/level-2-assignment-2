@@ -17,6 +17,10 @@ const insertNewProduct = async (req: Request, res: Response) => {
   }
 };
 
+const getAllProducts = async () => {
+  const result = await productServices.getAllProducts();
+};
 export const productControllers = {
   insertNewProduct,
+  getAllProducts,
 };
