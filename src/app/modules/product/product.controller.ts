@@ -17,8 +17,21 @@ const insertNewProduct = async (req: Request, res: Response) => {
   }
 };
 
-const getAllProducts = async () => {
-  const result = await productServices.getAllProducts();
+const getAllProducts = async (req: Request, res: Response) => {
+  try {
+    const result = await productServices.getAllProducts();
+    res.send(200).json({
+      success: true,
+      message: 'Products fetched successfully!',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Could not fetch data.',
+      error: error,
+    });
+  }
 };
 export const productControllers = {
   insertNewProduct,
