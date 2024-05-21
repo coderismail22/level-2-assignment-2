@@ -18,8 +18,19 @@ const getSingleProduct = async (productId: string) => {
   return result;
 };
 
+const getProductBySearchQuery = async (searchTerm: string) => {
+  const result = await ProductModel.find({
+    $or: [
+      { name: { $regex: searchTerm, $options: 'i' } }, // Case-insensitive search by product name
+      { description: { $regex: searchTerm, $options: 'i' } }, // Case-insensitive search by description
+    ],
+  });
+  return result;
+};
+
 export const productServices = {
   insertNewProduct,
   getAllProducts,
   getSingleProduct,
+  getProductBySearchQuery,
 };
