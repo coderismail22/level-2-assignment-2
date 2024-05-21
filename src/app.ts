@@ -10,7 +10,7 @@ app.use(cors());
 const abcd = 0;
 
 //application routes
-// app.use('/api/products');
+app.use('/api/products');
 // app.use('/api/orders');
 
 //default
