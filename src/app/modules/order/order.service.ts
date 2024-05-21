@@ -12,10 +12,8 @@ const createNewOrder = async (orderData: TOrder) => {
   if (!product) {
     throw new Error('Product not found');
   }
-  if (
-    product?.inventory?.quantity === 0 &&
-    product?.inventory?.inStock === false
-  ) {
+
+  if (!product?.inventory?.inStock || product?.inventory?.quantity < quantity) {
     throw new Error('Insufficient quantity available in inventory');
   }
 
