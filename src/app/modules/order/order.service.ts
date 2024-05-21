@@ -28,6 +28,12 @@ const createNewOrder = async (orderData: TOrder) => {
   return result;
 };
 
+const getAllOrder = async () => {
+  const result = await OrderModel.find();
+  return result;
+};
+
 export const orderServices = {
   createNewOrder,
+  getAllOrder
 };
