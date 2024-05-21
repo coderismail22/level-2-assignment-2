@@ -40,6 +40,10 @@ const getProductBySearchQuery = async (searchTerm: string) => {
 
 const deleteSingleProduct = async (productId: string) => {
   const result = await ProductModel.findByIdAndDelete(productId);
+  //Ensures that the response data is always null.
+  if (result !== null) {
+    return null;
+  }
   return result;
 };
 
