@@ -13,7 +13,11 @@ const insertNewProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'Could not create student data.',
+      error: error,
+    });
   }
 };
 
