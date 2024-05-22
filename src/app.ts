@@ -13,17 +13,17 @@ app.use(cors());
 app.use('/api/products', ProductRoutes);
 app.use('/api/orders', OrderRoutes);
 
+//default
+app.get('/', (req: Request, res: Response) => {
+  res.send('server is running!');
+});
+
 // Middleware for handling 404 errors
 app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     message: 'Route not found',
   });
-});
-
-//default
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello Prithibi!');
 });
 
 export default app;
