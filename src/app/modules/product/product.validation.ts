@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Define the variants schema with validation
 const variantsValidationSchema = z.object({
-  type: z.string().min(10, 'Type is required'),
+  type: z.string().min(1, 'Type is required'),
   value: z.string().min(1, 'Value is required'),
 });
 
