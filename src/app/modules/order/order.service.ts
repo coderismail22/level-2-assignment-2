@@ -20,10 +20,30 @@ const createNewOrder = async (orderData: TOrder) => {
   //Create Order
   const result = await OrderModel.create(orderData);
 
-  //Update the product quantity
-  await ProductModel.findByIdAndUpdate(productId, {
-    $inc: { 'inventory.quantity': -quantity },
-  });
+  // Update the product quantity and inStock status
+  await ProductModel.findByIdAndUpdate(
+    productId,
+    [
+      {
+        $set: {
+          'inventory.quantity': {
+            $subtract: ['$inventory.quantity', quantity],
+          }, // Decrement the quantity
+          'inventory.inStock': {
+            $cond: {
+              // Conditional operator
+              if: {
+                $gt: [{ $subtract: ['$inventory.quantity', quantity] }, 0],
+              }, // Check if resulting quantity is greater than 0
+              then: true, // If true, set inStock to true
+              else: false, // If false, set inStock to false
+            },
+          },
+        },
+      },
+    ],
+    { new: true },
+  );
 
   return result;
 };

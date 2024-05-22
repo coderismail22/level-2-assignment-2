@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import { orderServices } from './order.service';
+import { orderValidationSchema } from './order.validation';
 
 const createNewOrder = async (req: Request, res: Response) => {
   try {
     const { order: orderData } = req.body;
-    const result = await orderServices.createNewOrder(orderData);
+    const zodValidatedOrderData = orderValidationSchema.parse(orderData);
+    const result = await orderServices.createNewOrder(zodValidatedOrderData);
 
     res.status(200).json({
       success: true,
@@ -12,15 +14,29 @@ const createNewOrder = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    let errorMessage = 'An unexpected error occurred';
+    // Check if error object has issues property
+    if (typeof error === 'object' && error !== null && 'issues' in error) {
+      // Extract error messages
+      const errorMessages = (error as any).issues.map(
+        (issue: any) => issue.message,
+      );
 
-    if (error instanceof Error) {
-      errorMessage = error.message;
+      // Send the error messages in the response for zod validation error
+      res.status(500).json({
+        success: false,
+        error: errorMessages,
+      });
+      return;
     }
 
+    //if there's no zod validation error
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Insufficient quantity available in inventory';
     res.status(500).json({
       success: false,
-      message: errorMessage,
+      error: errorMessage,
     });
   }
 };
