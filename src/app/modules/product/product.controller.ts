@@ -121,7 +121,7 @@ const getProductBySearchQuery = async (req: Request, res: Response) => {
     const result = await productServices.getProductBySearchQuery(searchTerm);
     res.status(200).json({
       success: true,
-      message: `Products matching search term ${searchTerm} fetched successfully!`,
+      message: `Products matching search term '${searchTerm}' fetched successfully!`,
       data: result,
     });
   } catch (error) {
