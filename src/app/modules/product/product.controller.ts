@@ -61,16 +61,19 @@ const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const result = await productServices.getSingleProduct(productId);
+
     res.status(200).json({
       success: true,
       message: 'Product fetched successfully!',
       data: result,
     });
   } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'Product not found';
     res.status(500).json({
       success: false,
-      message: 'Could not fetch data.',
-      error,
+      // message: 'Could not fetch data.',
+      error: errorMessage,
     });
   }
 };
@@ -79,10 +82,10 @@ const updateSingleProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const { product: productData } = req.body;
-
+    const zodValidatedProductData = productValidationSchema.parse(productData);
     const result = await productServices.updateSingleProduct(
       productId,
-      productData,
+      zodValidatedProductData,
     );
 
     res.status(200).json({
@@ -91,10 +94,27 @@ const updateSingleProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
+    // Check if error object has issues property
+    if (typeof error === 'object' && error !== null && 'issues' in error) {
+      // Extract error messages
+      const errorMessages = (error as any).issues.map(
+        (issue: any) => issue.message,
+      );
+
+      // Send the error messages in the response for zod validation error
+      res.status(500).json({
+        success: false,
+        error: errorMessages,
+      });
+      return;
+    }
+
+    //if there's no zod validation error
+    const errorMessage =
+      error instanceof Error ? error.message : 'Product not found';
     res.status(500).json({
       success: false,
-      message: 'Could not update the product!',
-      error,
+      error: errorMessage,
     });
   }
 };
@@ -108,10 +128,11 @@ const getProductBySearchQuery = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'Product not found';
     res.status(500).json({
       success: false,
-      message: 'Could not fetch data.',
-      error: error,
+      error: errorMessage,
     });
   }
 };

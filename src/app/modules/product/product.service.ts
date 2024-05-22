@@ -15,6 +15,9 @@ const getAllProducts = async () => {
 
 const getSingleProduct = async (productId: string) => {
   const result = await ProductModel.findById(productId);
+  if (!result) {
+    throw new Error('Product not found');
+  }
   return result;
 };
 
@@ -25,6 +28,9 @@ const updateSingleProduct = async (
   const result = await ProductModel.findByIdAndUpdate(productId, productData, {
     new: true, //shows updated product data
   });
+  if (!result) {
+    throw new Error('Product not found');
+  }
   return result;
 };
 
@@ -35,6 +41,10 @@ const getProductBySearchQuery = async (searchTerm: string) => {
       { description: { $regex: searchTerm, $options: 'i' } }, // Case-insensitive search by description
     ],
   });
+  console.log('getProductBySearchQuery result', result);
+  if (result.length === 0) {
+    throw new Error('Product not found');
+  }
   return result;
 };
 
