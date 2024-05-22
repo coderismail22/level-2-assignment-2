@@ -1,7 +1,13 @@
 import { Request, Response } from 'express';
 import { productServices } from './product.service';
 import productValidationSchema from './product.validation';
+interface Issue {
+  message: string;
+}
 
+interface ValidationError {
+  issues: Issue[];
+}
 const insertNewProduct = async (req: Request, res: Response) => {
   try {
     //call insertNewProduct services
@@ -19,22 +25,26 @@ const insertNewProduct = async (req: Request, res: Response) => {
     // Check if error object has issues property
     if (typeof error === 'object' && error !== null && 'issues' in error) {
       // Extract error messages
-      const errorMessages = (error as any).issues.map(
-        (issue: any) => issue.message,
+      const validationError = error as ValidationError;
+      const errorMessages = validationError.issues.map(
+        (issue: Issue) => issue.message,
       );
 
-      // Send the error messages in the response
+      // Send the error messages in the response for zod validation error
       res.status(500).json({
         success: false,
         error: errorMessages,
       });
-    } else {
-      // If error object does not have issues property, send a general error response
-      res.status(500).json({
-        success: false,
-        message: 'An unexpected error occurred',
-      });
+      return;
     }
+
+    // If there's no zod validation error
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
+    res.status(500).json({
+      success: false,
+      error: errorMessage,
+    });
   }
 };
 
@@ -93,8 +103,9 @@ const updateSingleProduct = async (req: Request, res: Response) => {
     // Check if error object has issues property
     if (typeof error === 'object' && error !== null && 'issues' in error) {
       // Extract error messages
-      const errorMessages = (error as any).issues.map(
-        (issue: any) => issue.message,
+      const validationError = error as ValidationError;
+      const errorMessages = validationError.issues.map(
+        (issue: Issue) => issue.message,
       );
 
       // Send the error messages in the response for zod validation error
@@ -105,9 +116,9 @@ const updateSingleProduct = async (req: Request, res: Response) => {
       return;
     }
 
-    //if there's no zod validation error
+    // If there's no zod validation error
     const errorMessage =
-      error instanceof Error ? error.message : 'Product not found';
+      error instanceof Error ? error.message : 'An unknown error occurred';
     res.status(500).json({
       success: false,
       error: errorMessage,
