@@ -14,7 +14,7 @@ app.use('/api/products', ProductRoutes);
 app.use('/api/orders', OrderRoutes);
 
 // Middleware for handling 404 errors
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     message: 'Route not found',

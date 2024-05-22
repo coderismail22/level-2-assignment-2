@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { productServices } from './product.service';
-import { z } from 'zod';
 import productValidationSchema from './product.validation';
 
 const insertNewProduct = async (req: Request, res: Response) => {
