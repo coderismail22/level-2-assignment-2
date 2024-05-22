@@ -7,7 +7,6 @@ const insertNewProduct = async (req: Request, res: Response) => {
   try {
     //call insertNewProduct services
     const { product: productData } = req.body;
-    console.log('check', productData);
     const zodValidatedProductData = productValidationSchema.parse(productData);
     const result = await productServices.insertNewProduct(
       zodValidatedProductData,
@@ -61,7 +60,6 @@ const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const result = await productServices.getSingleProduct(productId);
-
     res.status(200).json({
       success: true,
       message: 'Product fetched successfully!',
@@ -69,10 +67,9 @@ const getSingleProduct = async (req: Request, res: Response) => {
     });
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : 'Product not found';
+      error instanceof Error ? error?.message : 'Product not found';
     res.status(500).json({
       success: false,
-      // message: 'Could not fetch data.',
       error: errorMessage,
     });
   }

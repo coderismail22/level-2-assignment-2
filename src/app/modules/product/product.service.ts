@@ -41,7 +41,6 @@ const getProductBySearchQuery = async (searchTerm: string) => {
       { description: { $regex: searchTerm, $options: 'i' } }, // Case-insensitive search by description
     ],
   });
-  console.log('getProductBySearchQuery result', result);
   if (result.length === 0) {
     throw new Error('Product not found');
   }

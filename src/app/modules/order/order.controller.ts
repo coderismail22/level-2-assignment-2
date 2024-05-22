@@ -5,7 +5,6 @@ const createNewOrder = async (req: Request, res: Response) => {
   try {
     const { order: orderData } = req.body;
     const result = await orderServices.createNewOrder(orderData);
-    console.log('try hitting', result);
 
     res.status(200).json({
       success: true,
