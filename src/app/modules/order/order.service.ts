@@ -55,6 +55,9 @@ const getAllOrders = async () => {
 
 const getOrdersByEmail = async (email: string) => {
   const result = await OrderModel.find({ email: email });
+  if (result.length === 0) {
+    throw new Error('Order not found');
+  }
   return result;
 };
 

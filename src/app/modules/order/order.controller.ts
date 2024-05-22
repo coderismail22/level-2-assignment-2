@@ -67,9 +67,11 @@ const getOrdersByEmail = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'Order not found';
     res.status(500).json({
       success: false,
-      message: error,
+      error: errorMessage,
     });
   }
 };
